@@ -10,7 +10,7 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBOutlet weak private var tableView: UITableView!
-    private let prefectures = Prefectures()
+    private let prefectures = Prefecture.prefectures
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,20 +22,20 @@ class ViewController: UIViewController {
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return prefectures.prefectures.count
+        return prefectures.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
-        cell.textLabel?.text = prefectures.prefectures[indexPath.row]
+        cell.textLabel?.text = prefectures[indexPath.row].name
         cell.detailTextLabel?.text = "\(indexPath.row + 1)番目の都道府県です"
-        cell.backgroundColor = changeCellBackgroundColor(index: indexPath.row)
+        cell.backgroundColor = changeCellBackgroundColor(index: indexPath.row) ?? .white
 
         return cell
     }
 
-    private func changeCellBackgroundColor(index: Int) -> UIColor {
+    private func changeCellBackgroundColor(index: Int) -> UIColor? {
 
         let num = index % 3
 
@@ -47,7 +47,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         case 2:
             return .green
         default:
-            return .white
+            return nil
         }
     }
 }
